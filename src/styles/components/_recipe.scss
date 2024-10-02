@@ -1,0 +1,110 @@
+.recipe-wrapper {
+    display: grid;
+    gap: 1rem;
+    max-width: 1200px;
+    padding: clamp(.25rem, 2vw, 2rem);
+
+}
+
+
+
+.history {
+    color: $secondary-text;
+    margin: 0;
+}
+
+.recipe-section {
+    margin: 0 auto;
+
+    .image-wrapper {
+
+        .image {
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        &:hover {
+            .image {
+                object-fit: contain;
+
+            }
+        }
+
+    }
+
+    .text {
+        text-align: left;
+    }
+
+    .reverse {
+        display: flex;
+        flex-direction: row-reverse;
+
+        .text {
+            text-align: right;
+        }
+    }
+
+}
+
+
+
+label:hover {
+    cursor: pointer;
+}
+
+label>input[type=checkbox] {
+    display: none;
+}
+
+label>input[type=checkbox]+span {
+    width: 20px;
+    height: 20px;
+    border: solid 1px #ccc;
+    display: inline-block;
+}
+
+label>input[type=checkbox]+span:before {
+    content: '\2713';
+    color: transparent;
+    display: block;
+    text-align: center;
+}
+
+label>input[type=checkbox]:checked+span:before {
+    color: $white;
+}
+
+label>input[type=checkbox]+span+span {
+    user-select: none;
+}
+
+@media (max-width: 800px) {
+    .recipe-wrapper {
+        width: 100%;
+        max-width: 100%;
+
+        .recipe-summary {
+            font-size: 1rem;
+        }
+    }
+
+    .reverse {
+        .text {
+            text-align: left !important;
+        }
+    }
+
+    .text {
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .ingredients {
+        max-width: 100% !important;
+        grid-template-columns: auto !important;
+    }
+
+}

@@ -1,0 +1,51 @@
+
+.input {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+form {
+    display: grid;
+    gap: .5rem;
+}
+
+.add-wrapper {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+}
+
+
+input, textarea {
+    background-color: $contrast;
+    color: $white;
+    padding: .75rem;
+    font-size: 1rem;
+    text-align: center;
+    border-radius: 8px;
+    transition: 200ms ease;
+    outline: 2px solid transparent;
+    resize: none;
+
+    &:focus {
+        outline: 2px solid $accent;
+    }
+}
+
+.step {
+    padding: .5rem;
+    background-color: $background;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.btn {
+    background-color: $accent;
+    color: $white;
+
+    &:hover {
+        background-color: $accent;
+    }
+}
