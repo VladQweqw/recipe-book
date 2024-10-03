@@ -1,10 +1,10 @@
 
 const ENDPOINT = 'http://192.168.1.69:3003'; 
 
-export const getRecipes = async (url: string = '') => {
-    
+export const getRecipes = async (url: string = '', body: any = {}, method: "GET" | "POST" | "DELETE" | "PUT" = 'GET') => {
     const response = await fetch(ENDPOINT + url, {
-        method: 'GET',
+        method: method,
+        body: JSON.stringify(body),
         headers: {
             "Access-Control-Allow-Origin": "*",
             "Accept": "*/*"
