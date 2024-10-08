@@ -6,7 +6,6 @@ export const getRecipes = async (url: string = '', body: any = {}, method: "GET"
         method: method,
         ...(method !== "GET" && method !== "HEAD" ? {body,} : {}),
         headers: {
-            "Access-Control-Allow-Origin": "*",
             "Accept": "*/*",
             // 'Content-Type': 'multipart/form-data',
 
