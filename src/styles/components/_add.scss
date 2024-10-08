@@ -26,11 +26,14 @@ input, textarea {
     border-radius: 8px;
     transition: 200ms ease;
     outline: 2px solid transparent;
-    resize: none;
 
     &:focus {
         outline: 2px solid $accent;
     }
+}
+
+textarea {
+    min-height: 200px;
 }
 
 .step {

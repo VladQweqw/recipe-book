@@ -1,14 +1,37 @@
-<script setup>
+<script lang="ts">
+    import { defineComponent, ref } from 'vue';
     import { useRouter } from 'vue-router';
     
-    const router = useRouter();
-    const props = defineProps({
-        title: String,
-    })
+    export default defineComponent({
+        components: {},
+        setup() {
+            const router = useRouter();
+            let nav_state = false;
 
-    function goToRecipe(type) {
-        router.push({ path: `/recipes/${type}` });
-    }
+            const navbar = ref<HTMLDivElement>();
+
+            function goToRecipe(type: string) {
+                router.push({ path: `/recipes/${type}` });
+            }
+
+            function toggleNavbar() {
+
+                if(!nav_state) {
+                    navbar.value?.classList.add('extended-navbar-active')
+                }else {
+                    navbar.value?.classList.remove('extended-navbar-active')
+                }
+
+                nav_state = !nav_state;
+            }
+
+            return {
+                goToRecipe,
+                toggleNavbar,
+                navbar
+            }
+        }
+    })
 
 </script>
 
@@ -28,6 +51,24 @@
                 Meal
             </div>
             <div @click="goToRecipe('deserts')" class="category">
+                Deserts
+            </div>
+        </div>
+
+        <div class="hamburger" @click="toggleNavbar()">
+            <span class="line"></span>
+            <span class="line"></span>
+            <span class="line"></span>
+        </div>
+
+        <div class="extended-navbar" ref="navbar">
+            <div @click="goToRecipe('breakfast')" class="nav-item">
+                Breakfast
+            </div>
+            <div @click="goToRecipe('meal')" class="nav-item">
+                Meal
+            </div>
+            <div @click="goToRecipe('deserts')" class="nav-item">
                 Deserts
             </div>
         </div>

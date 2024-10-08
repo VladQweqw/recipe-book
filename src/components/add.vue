@@ -1,5 +1,5 @@
 <script lang='ts'>
-    import { ref, watch, defineComponent, onMounted, reactive } from 'vue';
+    import { ref, watch, defineComponent, onMounted, reactive, toRaw } from 'vue';
     import { useRoute } from 'vue-router';
     import { getRecipes } from './api/get_recipes';
 
@@ -43,7 +43,7 @@
 
         function onFileChange(event: any, index: number) {
             const file = event.target!.files[0];
-
+            
             if(file) {
                 individualSteps.value[index] = {
                     ...individualSteps.value[index],
@@ -53,19 +53,20 @@
         }
 
         function submitData() {
-            allSteps.value = individualSteps.value.map((step: any) => step)
+            individualSteps.value.forEach((step: any) => {
+                allSteps.value.push(step);
+            })
         }
         
         const error = ref<string | null>();
         const loading = ref<boolean>(false);
-        const data = ref();
 
         const fetchRecipes = async (body: any) => {            
             loading.value = true; 
 
             try {
                 const data = await getRecipes('', body, 'POST');                 
-                data.value = data.data;                                 
+                alert(data.detail)
             } catch (err) {
                 error.value = `Err: ${err instanceof Error ? err.message : 'Unknown error'}`;
             } finally {                
@@ -75,20 +76,25 @@
 
         const createRecipe = () => {
             const form = form_elem.value;
-                        
-            const data = {
-                title: form.title,
-                category: cateogry_ref.category,
-                totalTime: form.totalTime,
-                lastingTime: form.LastingTime,
-                cost: form.cost,
-                difficulty: difficulty_ref.difficulty,
-                thumbnailImage: thumbnailImage.value?.files?.[0],
-                ingredients: form.ingredients?.split(','),
-                steps: allSteps.value,
-            }
-                
-            fetchRecipes(data)
+            const formData = new FormData();
+            
+            formData.append('title', form.title);
+            formData.append('category', cateogry_ref.category);
+            formData.append('totalTime', form.totalTime.toString());
+            formData.append('lastingTime', form.LastingTime.toString());
+            formData.append('cost', form.cost.toString());
+            formData.append('difficulty', difficulty_ref.difficulty);
+            formData.append('thumbnailImage', thumbnailImage.value!.files![0]);
+            
+            const steps = toRaw(allSteps);
+
+            form.ingredients?.split(',').forEach((ingredient: string) => formData.append('ingredients', ingredient.trim()))
+            steps.value.forEach((step: any) => {
+                formData.append('stepImages', step.image)
+                formData.append('stepTexts', step.text)
+            });
+            
+            fetchRecipes(formData)
         }   
 
         return {
@@ -103,8 +109,6 @@
             submitData,
             cateogry_ref,
             difficulty_ref,
-
-            data,
             error,
             loading
         };
@@ -125,7 +129,7 @@
                 type="text" 
                 v-model="form_elem.title" 
                 class="input-field" 
-     
+                
                 placeholder="Title">
             </div>
 
@@ -200,7 +204,6 @@
                 class="btn">Add step</button>
             </div>
                 <h2 v-if="error">Error, try again later pls.</h2>
-                <h2 v-if="data">Recipe created</h2>
                 <button 
                 @click="submitData();createRecipe()"
                 type="button"

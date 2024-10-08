@@ -3,25 +3,23 @@
     const router = useRouter();
 
     const props = defineProps<{
-        _id: string,
-        title: string,
-        category: string,
-        totalTime: number,
-        lastingTime: number,
-        cost: number,
-        thumbnailImage: string,
-        ingredients: {
-            name: string,
-            checked: boolean
-        }[],
-        steps: {
-            text: string,
-            image: string,
-        }[],
-        difficulty: string,
-        createdAt: string,
-        updatedAt: string,
-    }>();
+            _id: string,
+            title: string,
+            category: string,
+            totalTime: number,
+            lastingTime: number,
+            cost: number,
+            thumbnailImage: string,
+            ingredients: {
+                name: string,
+                checked: boolean
+            }[],
+            stepTexts: string[],
+            stepImages: string[],
+            difficulty: string,
+            createdAt: string,
+            updatedAt: string,
+        }>();
 
 </script>
 
@@ -31,7 +29,7 @@
         class="recipe recipe-item-grid">
             <h5 class="recipe-title">{{ title }}</h5>
             <div class="image-wrapper">
-                <img src="/src/assets/images/lasagn2.jpg" :alt="title">
+                <img :src="thumbnailImage" :alt="title">
                 <span class="difficulty ff-medium">{{ difficulty }}</span>
             </div>
 

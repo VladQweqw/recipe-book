@@ -31,15 +31,42 @@
             createdAt: string,
             updatedAt: string,
         }[]>([]); 
+        const latestRecipe = ref<{
+            _id: string,
+            title: string,
+            category: string,
+            totalTime: number,
+            lastingTime: number,
+            cost: number,
+            thumbnailImage: string,
+            ingredients: {
+                name: string,
+                checked: boolean
+            }[],
+            steps: {
+                text: string,
+                image: string,
+            }[],
+            difficulty: string,
+            createdAt: string,
+            updatedAt: string,
+        }>(); 
         const loading = ref<boolean>(true); 
         const error = ref<string | null>(null); 
 
         const fetchRecipes = async () => {
             try {
-                const data = await getRecipes();                 
-                recipes.value = data.data;                                 
-            } catch (err) {
-                error.value = `Err: ${err instanceof Error ? err.message : 'Unknown error'}`;
+                const data = await getRecipes('?reverse=true', {}, "GET");       
+                
+                if(data.data) {
+                    latestRecipe.value = data.data[0]
+                }
+                recipes.value = data.data;              
+                                   
+            } catch (err) {                
+                console.log(err);
+                
+                error.value = `Err: ${err}`;
             } finally {                
                 loading.value = false; // Update loading state
             }
@@ -50,6 +77,7 @@
             recipes,
             loading,
             error,
+            latestRecipe,
         };
     },
 });
@@ -59,31 +87,31 @@
 
 <template>
     <article class="wrapper recipe-wrapper container-fluid">
-        <SectionTitle>Today's recipe</SectionTitle>
+        <SectionTitle>Latest's recipe</SectionTitle>
 
         <div 
-        @click="$router.push('/recipes/meal/lasagn')"
+        @click="$router.push(`/recipes/${latestRecipe?.category}/${latestRecipe?.title}`)"
         class="recipe today-recipe">
-            <h5 class="recipe-title">Lasagna</h5>
+            <h5 class="recipe-title">{{ latestRecipe?.title }}</h5>
             <div class="image-wrapper">
-                <img src="/src/assets/images/lasagn2.jpg" alt="Lasagn">
-                <span class="difficulty ff-medium">Easy</span>
+                <img :src="latestRecipe?.thumbnailImage" alt="Lasagn">
+                <span class="difficulty ff-medium">{{ latestRecipe?.difficulty }}</span>
             </div>
             <div class="details">
                 <div class="detail">
-                    <h3 class="detail-accent">4</h3>
+                    <h3 class="detail-accent">{{ latestRecipe?.ingredients.length }}</h3>
                     <p class="detail-name ff-light">Ingredients</p>
                 </div>
                 <div class="detail">
-                    <h3 class="detail-accent">1h</h3>
+                    <h3 class="detail-accent">{{ latestRecipe?.totalTime }}h</h3>
                     <p class="detail-name ff-light">Total time</p>
                 </div>
                 <div class="detail">
-                    <h3 class="detail-accent">2 days</h3>
+                    <h3 class="detail-accent">{{ latestRecipe?.lastingTime }} days</h3>
                     <p class="detail-name ff-light">Last for</p>
                 </div>
                 <div class="detail">
-                    <h3 class="detail-accent">50RON</h3>
+                    <h3 class="detail-accent">{{ latestRecipe?.cost }}RON</h3>
                     <p class="detail-name ff-light">Price</p>
                 </div>
             </div>

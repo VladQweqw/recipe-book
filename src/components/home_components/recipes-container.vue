@@ -14,10 +14,8 @@
                 name: string,
                 checked: boolean
             }[],
-            steps: {
-                text: string,
-                image: string,
-            }[],
+            stepTexts: string[],
+            stepImages: string[],
             difficulty: string,
             createdAt: string,
             updatedAt: string,

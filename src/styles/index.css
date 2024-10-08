@@ -152,10 +152,50 @@ h2 {
   background-color: #1C1C1C;
   color: #FFFFFF;
 }
+.header .extended-navbar {
+  display: none;
+  position: fixed;
+  background-color: #131313;
+  height: calc(100% - 80px);
+  top: 80px;
+  padding: 0.5rem;
+  width: 250px;
+  transition: 200ms ease;
+  transform: translateX(100%);
+  right: 0;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+.header .extended-navbar .nav-item {
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+.header .extended-navbar-active {
+  transform: translate(0%);
+}
+.header .hamburger {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  height: 20px;
+  width: 30px;
+}
+.header .hamburger .line {
+  height: 2px;
+  background-color: #FFFFFF;
+  width: 100%;
+}
 
 @media (max-width: 800px) {
   .header .search-field, .header .category {
     display: none;
+  }
+  .header .extended-navbar, .header .hamburger {
+    display: flex;
   }
 }
 .recipe-wrapper {
@@ -165,18 +205,37 @@ h2 {
   padding: clamp(0.25rem, 2vw, 2rem);
 }
 
+.recipe-section {
+  text-align: center;
+}
+
+.ingredients {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
 .history {
   color: rgba(255, 255, 255, 0.4588235294);
   margin: 0;
 }
 
+.recipe-step {
+  height: auto;
+}
+
 .recipe-section {
   margin: 0 auto;
+}
+.recipe-section .image-wrapper {
+  max-height: 500px;
 }
 .recipe-section .image-wrapper .image {
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 8px;
+  width: 100%;
+  height: 100%;
 }
 .recipe-section .image-wrapper:hover .image {
   -o-object-fit: contain;
@@ -184,6 +243,10 @@ h2 {
 }
 .recipe-section .text {
   text-align: left;
+}
+.recipe-section .text-center {
+  text-align: center;
+  width: 100%;
 }
 .recipe-section .reverse {
   display: flex;
@@ -414,10 +477,13 @@ input, textarea {
   border-radius: 8px;
   transition: 200ms ease;
   outline: 2px solid transparent;
-  resize: none;
 }
 input:focus, textarea:focus {
   outline: 2px solid #49cca5;
+}
+
+textarea {
+  min-height: 200px;
 }
 
 .step {
