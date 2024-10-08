@@ -1,5 +1,5 @@
 
-const ENDPOINT = 'http://192.168.1.69:3003'; 
+const ENDPOINT = 'http://192.168.1.68:3003'; 
 
 export const getRecipes = async (url: string = '', body: any = {}, method: "GET"  | "HEAD" | "POST" | "DELETE" | "PUT" = 'GET') => {
     const response = await fetch(ENDPOINT + url, {
